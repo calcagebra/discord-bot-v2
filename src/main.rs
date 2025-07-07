@@ -45,7 +45,7 @@ async fn calcagebra(
     write(&file, &contents).unwrap();
 
     let response = String::from_utf8(
-        Command::new("./calcagebra")
+        Command::new("./calcagebra.exe")
             .arg("run")
             .arg(&file)
             .output()
