@@ -52,7 +52,7 @@ async fn calcagebra(
     >,
 ) -> Result<(), Error> {
     let contents = if code.is_some() {
-        format!("print({})", code.unwrap())
+        format!("print({})", code.as_ref().unwrap())
     } else {
         use poise::Modal as _;
 
@@ -95,8 +95,19 @@ async fn calcagebra(
     }
     .embed(
         CreateEmbed::new()
-            .field("Input", &format!("```rs\n{contents}\n```"), false)
-            .field("Output", &format!("```\n{response}\n```"), false)
+            .field(
+                format!(
+                    "Input {}",
+                    if code.is_some() {
+                        "(expression)"
+                    } else {
+                        "file"
+                    }
+                ),
+                format!("```rs\n{}\n```", code.unwrap()),
+                false,
+            )
+            .field("Output", format!("```\n{response}\n```"), false)
             .footer(CreateEmbedFooter::new("Images attached somewhere"))
             .author(CreateEmbedAuthor::new(
                 result.status.code().unwrap().to_string(),
