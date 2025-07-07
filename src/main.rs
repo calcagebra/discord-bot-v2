@@ -104,7 +104,14 @@ async fn calcagebra(
                         "file"
                     }
                 ),
-                format!("```rs\n{}\n```", code.unwrap()),
+                format!(
+                    "```rs\n{}\n```",
+                    if code.is_some() {
+                        code.unwrap()
+                    } else {
+                        contents
+                    }
+                ),
                 false,
             )
             .field("Output", format!("```\n{response}\n```"), false)
