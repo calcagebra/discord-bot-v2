@@ -6,7 +6,7 @@ use std::{
 
 use dotenv_codegen::dotenv;
 use poise::{
-    ApplicationContext,
+    ApplicationContext, Context,
     reply::CreateReply,
     serenity_prelude::{
         self as serenity, ButtonStyle, ComponentInteractionCollector, CreateActionRow,
@@ -140,14 +140,15 @@ async fn calcagebra(
         remove_file(&file).unwrap();
     }
 
-    ctx.send(builder).await?;
+    let reply = ctx.send(builder).await?;
 
-    while let Some(press) = ComponentInteractionCollector::new(ctx)
+    while (ComponentInteractionCollector::new(ctx)
         .filter(move |press| press.data.custom_id.starts_with("nonce"))
         .timeout(std::time::Duration::from_secs(60))
-        .await
+        .await)
+        .is_some()
     {
-        press.delete_response(ctx).await?;
+        reply.delete(Context::Application(ctx)).await?;
     }
 
     Ok(())
