@@ -142,13 +142,14 @@ async fn calcagebra(
 
     let reply = ctx.send(builder).await?;
 
-    while (ComponentInteractionCollector::new(ctx)
+    while let Some(press) = ComponentInteractionCollector::new(ctx)
         .filter(move |press| press.data.custom_id.starts_with("nonce"))
         .timeout(std::time::Duration::from_secs(60))
-        .await)
-        .is_some()
+        .await
     {
-        reply.delete(Context::Application(ctx)).await?;
+        if press.user.id == ctx.interaction.user.id {
+            reply.delete(Context::Application(ctx)).await?;
+        }
     }
 
     Ok(())
