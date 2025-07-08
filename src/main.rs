@@ -148,7 +148,12 @@ async fn calcagebra(
         .await)
         .is_some()
     {
-        reply.delete(Context::Application(ctx)).await?;
+        // Ignore "Unknown Message" errors from race conditions because people suck
+        if let Err(err) = reply.delete(Context::Application(ctx)).await {
+            if !err.to_string().contains("Unknown Message") {
+                return Err(err);
+            }
+        }
     }
 
     Ok(())
