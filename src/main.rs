@@ -147,7 +147,7 @@ async fn calcagebra(
         .timeout(std::time::Duration::from_secs(60))
         .await
     {
-        press.message.delete(ctx).await?;
+        press.delete_response(ctx).await?;
     }
 
     Ok(())
