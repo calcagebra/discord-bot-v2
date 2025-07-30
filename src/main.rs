@@ -78,6 +78,7 @@ async fn calcagebra(
     let result = Command::new("./calcagebra")
         .arg("run")
         .arg(&file)
+        .arg("--time")
         .output()
         .unwrap();
 
