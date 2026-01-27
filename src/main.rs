@@ -115,7 +115,7 @@ async fn calcagebra(
                 ),
                 false,
             )
-            .field("Output", format!("```\n{response}\n```"), false)
+            .field("Output", format!("```ansi\n{response}\n```"), false)
             .footer(CreateEmbedFooter::new("Images attached somewhere"))
             .author(CreateEmbedAuthor::new(
                 result.status.code().unwrap().to_string(),
